@@ -1,4 +1,10 @@
-import { FETCH_START, FETCH_FAIL, FETCH_SUCCESS, ADD_SMURF, SET_ERROR } from '../actions';
+import { 
+    FETCH_START, 
+    FETCH_FAIL, 
+    FETCH_SUCCESS, 
+    ADD_SMURF, 
+    SET_ERROR 
+} from '../actions/index';
 
 
 export const initialState = {
@@ -10,6 +16,7 @@ export const initialState = {
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case FETCH_START:
+            console.log("Reducer Running (FETCH_START)")
             return {
                 ...state,
                 smurfs: [],
@@ -24,6 +31,7 @@ const reducer = (state = initialState, action) => {
                 error: action.payload
             }
         case FETCH_SUCCESS:
+            console.log("Reducer Running (FETCH_SUCCESS)")
             return {
                 ...state,
                 smurfs: action.payload,
@@ -31,11 +39,10 @@ const reducer = (state = initialState, action) => {
                 error: ''
             }
         case ADD_SMURF:
-            console.log(action.payload)
+            console.log("Reducer Running (ADD_SMURF)")
             return {
                 ...state,
                 smurfs: [...state.smurfs, {
-                    id: action.payload.id,
                     name: action.payload.name,
                     nickname: action.payload.nickname,
                     position: action.payload.position,
@@ -51,6 +58,7 @@ const reducer = (state = initialState, action) => {
     }
 }
 
+
 //**************DO NOT EDIT ANY CODE BEYOND THIS POINT**************//
 export default reducer;
 
@@ -65,4 +73,4 @@ export default reducer;
 //[COMPLETE] 4. Add in a reducer case to accomidate the successful smurf api fetch.
 //[COMPLETE] 5. Add in a reducer cases to accomidate the failed smurf api fetch.
 //[COMPLETE] 6. Add in a reducer case to accomidate adding a smurf (including the name, nickname, position, summary and an internally generated id) into your smurf list.
-//7. Add in a reducer case that adds in a value to the error message.
+//[COMPLETE] 7. Add in a reducer case that adds in a value to the error message.

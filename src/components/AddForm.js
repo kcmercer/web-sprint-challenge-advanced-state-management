@@ -21,10 +21,10 @@ const AddForm = (props) => {
         console.log("Submitting...")
         e.preventDefault();
         if (state.name === "" || state.position === "" || state.nickname === "") {
-            setError(props.error)
+            props.setError("Please provide a name, position, and nickname.")
         } else {
             console.log("Adding Smurf...")
-            addSmurf(state)
+            props.addSmurf(state)
             console.log(props.smurfs);
         }
     }
