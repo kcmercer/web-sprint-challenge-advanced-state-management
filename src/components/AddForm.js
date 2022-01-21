@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { addSmurf, setError } from '../actions'
 
 const AddForm = (props) => {
     const [state, setState] = useState({
@@ -8,9 +10,6 @@ const AddForm = (props) => {
         description:""
     });
 
-    //remove when error state is added
-    const errorMessage = "";
-
     const handleChange = e => {
         setState({
             ...state,
@@ -19,11 +18,14 @@ const AddForm = (props) => {
     }
 
     const handleSubmit = e => {
+        console.log("Submitting...")
         e.preventDefault();
         if (state.name === "" || state.position === "" || state.nickname === "") {
-            //dispatch a custom error action
+            setError(props.error)
         } else {
-            //dispatch an addSmurf action
+            console.log("Adding Smurf...")
+            addSmurf(state)
+            console.log(props.smurfs);
         }
     }
 
@@ -47,14 +49,21 @@ const AddForm = (props) => {
                 <textarea onChange={handleChange} value={state.description} name="description" id="description" />
             </div>
             {
-                errorMessage && <div data-testid="errorAlert" className="alert alert-danger" role="alert">Error: {errorMessage}</div>
+                props.error && <div data-testid="errorAlert" className="alert alert-danger" role="alert">Error: {props.error}</div>
             }
-            <button>Submit Smurf</button>
+            <button onClick={handleSubmit}>Submit Smurf</button>
         </form>
     </section>);
 }
 
-export default AddForm;
+const mapStateToProps = state => {
+    return {
+        smurfs: state.smurfs,
+        error: state.error
+    }
+}
+
+export default connect(mapStateToProps, { addSmurf, setError })(AddForm);
 
 //Task List:
 //1. Connect the errorMessage, setError and addSmurf actions to the AddForm component.

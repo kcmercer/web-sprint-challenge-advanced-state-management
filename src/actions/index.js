@@ -4,38 +4,51 @@ export const FETCH_START = "FETCH_START";
 export const FETCH_FAIL = "FETCH_FAIL";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
 export const ADD_SMURF = "ADD_SMURF";
-export const CHANGE_ERROR = "CHANGE_ERROR";
+export const SET_ERROR = "SET_ERROR";
 
-export const fetchSmurfs = () => (dispatch) => {
+export const fetchSmurfs = () => {
+    return (dispatch) => {
+    console.log("(A) Fetching API...")
     dispatch(fetchStart())
     axios.get('http://localhost:3333/smurfs')
         .then(resp => {
-            console.log(resp)
+            console.log("(A) API data received.")
+            console.log(resp.data)
             dispatch(fetchSuccess(resp.data))
         })
         .catch(error => {
+            console.log("(A) Failed to receive API data.")
             dispatch(fetchFail(error))
         })
+    }
 }
 
 export const fetchStart = () => {
-    return ({type: FETCH_START})
+    return ({type:FETCH_START})
 }
 
 export const fetchSuccess = (smurf) => {
-    return({type: FETCH_SUCCESS, payload: smurf})
+    return({type:FETCH_SUCCESS, payload:smurf})
 }
 
 export const fetchFail = (errorMessage) => {
-    return({type: FETCH_FAIL, payload: errorMessage})
+    return({type:FETCH_FAIL, payload:errorMessage})
 }
 
 export const addSmurf = (smurf) => {
-    return({type: ADD_SMURF, payload: smurf})
+    axios.post('http://localhost:3333/smurfs', smurf)
+        .then(resp => {
+            console.log("(A) Smurf Added!")
+            console.log(resp.data)
+        })
+        .catch(error => {
+            console.log("(A) Failed to add Smurf")
+        })
+        
 }
 
-export const changeError = (error) => {
-    return({type: CHANGE_ERROR, payload: error})
+export const setError = (error) => {
+    return({type:SET_ERROR, payload:error})
 }
 
 //Task List:
